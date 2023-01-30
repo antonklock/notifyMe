@@ -3,27 +3,27 @@ import path from "path";
 import EventEmitter from 'events';
 import IPC from './IPC/General/IPC';
 
-const appName = "MEMENTO - Svelte, Electron, TypeScript";
+const appName = "NotifyMe";
 
 const defaultSettings = {
-  title:  "MEMENTO - Svelte, Electron, TypeScript",
+  title: "NotifyMe",
   width: 854,
   height: 480,
-  frame: false,
+  frame: true,
   backgroundColor: '#FFF'
 }
 
 class CustomWindow {
   window!: BrowserWindow;
-  settings: {[key: string]: any};
+  settings: { [key: string]: any };
   onEvent: EventEmitter = new EventEmitter();
 
-  constructor(settings: {[key: string]: any} | null = null) {
-    this.settings = settings ? {...defaultSettings, ...settings} : {...defaultSettings}
+  constructor(settings: { [key: string]: any } | null = null) {
+    this.settings = settings ? { ...defaultSettings, ...settings } : { ...defaultSettings }
   }
 
   createWindow(url: string) {
-    let settings = {...this.settings}
+    let settings = { ...this.settings }
     app.name = appName;
     let window = new BrowserWindow({
       ...settings,
@@ -45,7 +45,7 @@ class CustomWindow {
   }
 
   async setIpcMain(api: Array<IPC>) {
-    api.forEach( async (el) => await el.initIpcMain(ipcMain, this.window));
+    api.forEach(async (el) => await el.initIpcMain(ipcMain, this.window));
   }
 }
 

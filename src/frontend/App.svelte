@@ -1,38 +1,84 @@
 <script lang="ts">
   import "./css/tailwind.pcss";
-  import Version from "./Components/Version.svelte";
-  import InfoElectron from "./Components/InfoElectron.svelte";
-  import MainWithTitlebar from "./Components/MainWithTitlebar.svelte";
+  import NotificationObject from "./Components/NotificationObject.svelte";
+  import { Notifications } from "./Data/Notifications";
+  // import notifications, { UpdateNotifications } from "./Data/Notifications";
 
-  export let name: string;
+  const handleToggleActive = (notificationId) => {
+    let newNotifications: notification[];
+    
+    newNotifications = Notifications.notifications.map((notification) => {
+      if (notification.id === notificationId) {
+        notification.active = !notification.active;
+      }
+    });
+
+    Notifications.notifications = [...newNotifications];
+
+    console.log(Notifications.notifications);
+
+    
+
+  //   Notifications.notifications = Notifications.notifications.map(
+  //     (notification: { id: number; active: boolean }) => {
+  //       if (notification.id == notificationId) {
+  //         notification.active = !notification.active;
+  //         // console.log(Notifications.notifications);
+  //       }
+  //     }
+  //   );
+  // };
+
+  const handleAddNewNotification = () => {
+    let newNotification = {
+      title: "Title #4",
+      body: "Hello I am four!",
+      useOSNotification: true,
+      active: false,
+      intervalInSeconds: 30,
+      id: 4,
+    };
+
+    Notifications.notifications = [
+      ...Notifications.notifications,
+      newNotification,
+    ];
+  };
+
+  const handleDeleteNotification = (notificationId) => {
+    Notifications.notifications = Notifications.notifications.filter(
+      (notification) => {
+        if (notificationId == notification.id) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    );
+  };
+
+  const handleShowNotification = (notificationId) => {};
 </script>
 
 <svelte:head>
-  <title>MEMENTO - Svelte, TailwindCSS, Electron and TypeScript</title>
+  <title>NotifyMe</title>
 </svelte:head>
 
-<MainWithTitlebar title="MEMENTO - Svelte + Electron">
-  <section class="text-center space-y-6">
-    <h1>Hello {name}!</h1>
-    <p>
-      Visit the <a
-        href="https://svelte.dev/tutorial"
-        class="btn-orange hover:no-underline">Svelte tutorial</a
-      > to learn how to build Svelte apps.
-    </p>
-    <p>
-      Visit the <a
-        href="https://github.com/el3um4s/memento-svelte-electron-typescript"
-        class="btn-orange hover:no-underline">Repository</a
-      > to view the source code.
-    </p>
-    <Version />
-    <InfoElectron />
-  </section>
-</MainWithTitlebar>
+<section class="text-center space-y-6">
+  <h1>Notify me!</h1>
+  <button on:click={handleAddNewNotification}>Add new notification</button>
+</section>
+
+{#each Notifications.notifications as notification}
+  <NotificationObject
+    title={notification.title}
+    body={notification.body}
+    intervalInSeconds={notification.intervalInSeconds}
+    isActive={notification.active}
+    on:toggleActive={() => handleToggleActive(notification.id)}
+    on:deleteNotification={() => handleDeleteNotification(notification.id)}
+  />
+{/each}
 
 <style>
-  p {
-    @apply m-1;
-  }
 </style>

@@ -27,12 +27,12 @@ app.on('window-all-closed', () => {
 
 async function createMainWindow() {
     const settings = {
-        title: "MEMENTO - Svelte, Tailwind, Electron & TypeScript"
+        title: "NotifyMe"
     };
-    mainWindow = new CustomWindow(settings);   
+    mainWindow = new CustomWindow(settings);
     const urlPage = path.join(__dirname, 'www', 'index.html');
     mainWindow.createWindow(urlPage);
-    
+
     await mainWindow.setIpcMain([systemInfo, updaterInfo, windowControls]);
 
     updaterInfo.initAutoUpdater(autoUpdater, mainWindow.window);

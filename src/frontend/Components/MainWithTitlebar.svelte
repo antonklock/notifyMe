@@ -40,7 +40,7 @@
 </main>
 
 <style lang="postcss">
-  main {
+  /* main {
     @apply w-full;
     --background-color: theme("colors.gray.50");
     --text-color: theme("colors.red.900");
@@ -61,5 +61,5 @@
   }
   .page::-webkit-scrollbar-thumb {
     background-color: var(--text-color);
-  }
+  } */
 </style>
