@@ -6,28 +6,18 @@
 
   const handleToggleActive = (notificationId) => {
     let newNotifications: notification[];
-    
-    newNotifications = Notifications.notifications.map((notification) => {
+
+    newNotifications = Notifications.entries.map((notification) => {
       if (notification.id === notificationId) {
         notification.active = !notification.active;
       }
+      return notification;
     });
 
-    Notifications.notifications = [...newNotifications];
+    Notifications.entries = [...newNotifications];
 
-    console.log(Notifications.notifications);
-
-    
-
-  //   Notifications.notifications = Notifications.notifications.map(
-  //     (notification: { id: number; active: boolean }) => {
-  //       if (notification.id == notificationId) {
-  //         notification.active = !notification.active;
-  //         // console.log(Notifications.notifications);
-  //       }
-  //     }
-  //   );
-  // };
+    console.log(Notifications.entries);
+  };
 
   const handleAddNewNotification = () => {
     let newNotification = {
@@ -39,22 +29,17 @@
       id: 4,
     };
 
-    Notifications.notifications = [
-      ...Notifications.notifications,
-      newNotification,
-    ];
+    Notifications.entries = [...Notifications.entries, newNotification];
   };
 
   const handleDeleteNotification = (notificationId) => {
-    Notifications.notifications = Notifications.notifications.filter(
-      (notification) => {
-        if (notificationId == notification.id) {
-          return false;
-        } else {
-          return true;
-        }
+    Notifications.entries = Notifications.entries.filter((notification) => {
+      if (notificationId == notification.id) {
+        return notification;
+      } else {
+        return true;
       }
-    );
+    });
   };
 
   const handleShowNotification = (notificationId) => {};
@@ -69,7 +54,7 @@
   <button on:click={handleAddNewNotification}>Add new notification</button>
 </section>
 
-{#each Notifications.notifications as notification}
+{#each Notifications.entries as notification}
   <NotificationObject
     title={notification.title}
     body={notification.body}

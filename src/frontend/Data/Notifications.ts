@@ -1,5 +1,5 @@
 export class Notifications {
-    public static notifications: notification[] = [
+    public static entries: notification[] = [
         {
             title: "Notification #1",
             body: "This is the subtitle of the first notification.",
